@@ -1,0 +1,36 @@
+{
+	"name": "EnhancedItemTrading",
+	"namespace": "sandbox-vm-kenyon",
+	"version_number": "0.1.0",
+	"description": "Fixes weapon trading for all tiers and adds a personal weapon locker mechanic",
+	"website_url": "https://github.com/sandbox-vm-kenyon/brotato-enhanced-item-trading-mod",
+	"dependencies": ["dami-ModOptions"],
+	"extra": {
+		"godot": {
+			"incompatibilities": ["RobocrafterLP-Trade"],
+			"authors": ["sandbox-vm-kenyon"],
+			"compatible_mod_loader_version": ["3.0.0"],
+			"compatible_game_version": ["0.6.1.6"],
+			"config_defaults": {},
+			"config_schema": {
+				"title": "Config_enhanced_item_trading",
+				"description": "Config for Enhanced Item Trading",
+				"type": "object",
+				"properties": {
+					"TRADE_ITEMS_OVER_LIMIT": {
+						"type": "boolean",
+						"default": false
+					},
+					"ENABLE_LOCKER": {
+						"type": "boolean",
+						"default": true
+					},
+					"LOCKER_IN_SOLO": {
+						"type": "boolean",
+						"default": false
+					}
+				}
+			}
+		}
+	}
+}
