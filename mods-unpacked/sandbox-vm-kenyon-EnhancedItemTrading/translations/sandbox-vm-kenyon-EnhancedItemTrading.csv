@@ -1,0 +1,12 @@
+keys,en,de,ru
+EIT_GIVE_TO_PLAYER_1,Give to Player 1,Gebe Spieler 1,Передать игроку 1
+EIT_GIVE_TO_PLAYER_2,Give to Player 2,Gebe Spieler 2,Передать игроку 2
+EIT_GIVE_TO_PLAYER_3,Give to Player 3,Gebe Spieler 3,Передать игроку 3
+EIT_GIVE_TO_PLAYER_4,Give to Player 4,Gebe Spieler 4,Передать игроку 4
+EIT_SET_ASIDE_IN_LOCKER,Set Aside in Locker,In Schließfach legen,Положить в ячейку
+EIT_GET_FROM_LOCKER,Get from Locker,Aus Schließfach holen,Взять из ячейки
+EIT_LOCKER_NAME,Weapon Locker,Waffenschließfach,Ячейка для оружия
+EIT_LOCKER_DESC,Store one weapon aside temporarily. Retrieve it when you have a free slot.,Lagere vorübergehend eine Waffe. Hole sie zurück wenn ein Slot frei ist.,Временно сохрани оружие. Возьми обратно когда будет свободный слот.
+EIT_TRADE_ITEMS_OVER_LIMIT,Trade items over limit,Gegenstände über Limit handeln,Передавать предметы сверх лимита
+EIT_ENABLE_LOCKER,Enable Weapon Locker,Waffenschließfach aktivieren,Включить ячейку для оружия
+EIT_LOCKER_IN_SOLO,Locker in Solo Mode,Schließfach im Einzelspielermodus,Ячейка в одиночной игре
