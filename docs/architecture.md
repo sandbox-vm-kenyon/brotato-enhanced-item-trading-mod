@@ -38,9 +38,17 @@ func _can_weapon_be_traded(weapon_data: WeaponData, player_index: int) -> bool:
     return false
 ```
 
-Note: `get_player_max_nb_weapons` API name needs verification against the decompiled source — it may be `get_player_effect("max_nb_weapons")` or similar.
+**Verified against decompiled Brotato 0.6.1.6 source** (decompiled 2026-06-20 using GDRETools v2.5.0):
 
-We still keep the melee/ranged/duplicate restriction checks from `_can_weapon_be_bought` since those reflect real character constraints (not shop-specific logic).
+- `get_free_weapon_slots(player_index)` — exists in vanilla at `singletons/run_data.gd:1335`
+- `get_player_effect(key: int, player_index)` — takes **int hash key**, not string
+- `Keys.no_melee_weapons_hash`, `Keys.no_ranged_weapons_hash`, `Keys.no_duplicate_weapons_hash`, `Keys.lock_current_weapons_hash` — correct hash names
+- `add_weapon(weapon_data, player_index)` — direct RunData method for adding weapons (correct for trades)
+
+**Actual Fix — bypass `buy_weapon` entirely for trades:**
+`buy_weapon` in `base_shop.gd` calls `has_weapon_slot_available` internally AND does a `_elements.add_element` (shop visual container) before the slot check. For trades, we call `RunData.add_weapon` directly and refresh the gear container UI manually. This works for all weapon tiers.
+
+We still keep the melee/ranged/duplicate restriction checks, updated to use correct hash keys.
 
 ---
 

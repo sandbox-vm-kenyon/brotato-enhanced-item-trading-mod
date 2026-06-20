@@ -22,9 +22,8 @@ func on_weapon_trade_button_pressed_eit(weapon_data: WeaponData, from_player_ind
 		_play_fail_sound()
 		return
 
-	_check_character_restrictions(weapon_data, to_player_index)
 	process_player_weapons_inventory(weapon_data, from_player_index)
-	.buy_weapon(weapon_data, to_player_index)
+	_give_weapon_direct(weapon_data, to_player_index)
 	SoundManager.play(Utils.get_rand_element(recycle_sounds), 0, 0.1, true)
 
 
@@ -70,44 +69,66 @@ func on_weapon_locker_retrieve_pressed_eit(player_index: int) -> void:
 		return
 
 	RunData.clear_locker_weapon(player_index)
-	.buy_weapon(stored_weapon, player_index)
+	_give_weapon_direct(stored_weapon, player_index)
 	SoundManager.play(Utils.get_rand_element(recycle_sounds), 0, 0.1, true)
 	ModLoaderLog.info("Player %s retrieved %s from locker" % [player_index, stored_weapon.my_id], "EIT")
 
 
 # --- Core fix: trade-safe weapon eligibility ---
-# Unlike the vanilla _can_weapon_be_bought, this does NOT use has_weapon_slot_available.
-# has_weapon_slot_available checks shop buy-path eligibility (upgrade chains from tier 1),
-# which returns false for tier 2+ weapons even when a free slot exists.
+# Uses correct hash-keyed API from Keys singleton (verified against decompiled source).
+# Bypasses buy_weapon entirely — trades call _give_weapon_direct which uses
+# RunData.add_weapon directly, avoiding the shop-specific upgrade-path logic
+# that was preventing tier 2+ weapons from being traded.
 
 func _can_weapon_be_traded_eit(weapon_data: WeaponData, player_index: int) -> bool:
-	# Character-level restrictions still apply.
-	var no_melee = RunData.get_player_effect_bool("no_melee_weapons", player_index)
-	var no_ranged = RunData.get_player_effect_bool("no_ranged_weapons", player_index)
-	var no_dupes = RunData.get_player_effect_bool("no_duplicate_weapons", player_index)
-	var lock_current = RunData.get_player_effect_bool("lock_current_weapons", player_index)
+	var no_melee = RunData.get_player_effect_bool(Keys.no_melee_weapons_hash, player_index)
+	var no_ranged = RunData.get_player_effect_bool(Keys.no_ranged_weapons_hash, player_index)
+	var no_dupes = RunData.get_player_effect_bool(Keys.no_duplicate_weapons_hash, player_index)
+	var lock_current = RunData.get_player_effect_bool(Keys.lock_current_weapons_hash, player_index)
 
 	if no_melee and weapon_data.type == WeaponType.MELEE:
 		return false
 	if no_ranged and weapon_data.type == WeaponType.RANGED:
 		return false
+	if no_dupes and weapon_data.weapon_id in RunData.get_unique_weapon_ids(player_index):
+		return false
 
-	var weapons = RunData.get_player_weapons(player_index)
+	# Direct free-slot check — works for all tiers.
+	# vanilla get_free_weapon_slots uses: weapon_slot_hash - weapons_ref.size()
+	var free_slots = RunData.get_free_weapon_slots(player_index)
+	if free_slots > 0:
+		return not lock_current  # lock_current means no new weapons, only upgrades
 
-	if no_dupes:
-		if weapon_data.weapon_id in RunData.get_unique_weapon_ids(player_index):
-			return false
+	# No free slot: still valid if player has the tier-below version (will upgrade in-place).
+	if weapon_data.tier > 1:
+		for existing in RunData.get_player_weapons(player_index):
+			if existing.weapon_id == weapon_data.weapon_id and existing.tier == weapon_data.tier - 1:
+				return true
 
-	if lock_current:
-		# Can only replace via upgrade, not add new.
-		return RunData.can_receive_traded_weapon(weapon_data, player_index)
-
-	# Main slot check — works for all tiers.
-	return RunData.can_receive_traded_weapon(weapon_data, player_index)
+	return false
 
 
-func _check_character_restrictions(_weapon_data: WeaponData, _player_index: int) -> void:
-	pass
+# Bypass buy_weapon to avoid its shop-specific slot check and add_element visual step.
+# Directly calls RunData.add_weapon, then refreshes the gear container UI.
+func _give_weapon_direct(weapon_data: WeaponData, player_index: int) -> void:
+	var free_slots = RunData.get_free_weapon_slots(player_index)
+	if free_slots > 0:
+		# Simple add: free slot available.
+		RunData.add_weapon(weapon_data, player_index)
+	else:
+		# Upgrade path: find the tier-below version and combine.
+		var weapons = RunData.get_player_weapons(player_index)
+		for existing in weapons:
+			if existing.weapon_id == weapon_data.weapon_id and existing.tier == weapon_data.tier - 1:
+				RunData.add_weapon(weapon_data, player_index)
+				_combine_weapon(existing, player_index, true)
+				break
+
+	# Refresh gear container UI for the receiving player.
+	var gear = _get_gear_container(player_index)
+	gear.set_weapons_data(RunData.get_player_weapons(player_index))
+	gear.weapons_container.focus_element_index(0)
+	_update_stats(player_index)
 
 
 func _play_fail_sound() -> void:

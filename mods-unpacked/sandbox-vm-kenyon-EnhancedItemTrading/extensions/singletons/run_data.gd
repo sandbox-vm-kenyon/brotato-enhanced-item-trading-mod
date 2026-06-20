@@ -82,27 +82,7 @@ func is_can_trade_item(object_data, player_index: int) -> bool:
 		return remaining > 0 or remaining == -1
 	return false
 
-# Check if a weapon can be received by a player via trade (not shop-buy logic).
-# This bypasses has_weapon_slot_available which only works for shop purchases.
-func can_receive_traded_weapon(weapon_data: WeaponData, player_index: int) -> bool:
-	var weapons = get_player_weapons(player_index)
-	var max_nb = get_player_max_nb_weapons(player_index)
-
-	# Free slot available — can receive directly.
-	if weapons.size() < max_nb:
-		return true
-
-	# No free slot — check if player has the tier-below version of this weapon.
-	# In that case receiving it will trigger an in-place upgrade (same slot consumed).
-	if weapon_data.tier > 1:
-		for existing in weapons:
-			if existing.weapon_id == weapon_data.weapon_id and existing.tier == weapon_data.tier - 1:
-				return true
-
-	return false
-
-# Returns how many free weapon slots a player has (used for locker retrieval check).
-func get_free_weapon_slots(player_index: int) -> int:
-	var weapons = get_player_weapons(player_index)
-	var max_nb = get_player_max_nb_weapons(player_index)
-	return max(0, max_nb - weapons.size())
+# NOTE: get_free_weapon_slots(player_index) already exists in vanilla RunData.
+# Verified in decompiled source (singletons/run_data.gd:1335):
+#   return effects[Keys.weapon_slot_hash] - get_player_weapons_ref(player_index).size()
+# We do NOT redefine it here — vanilla version is used directly.

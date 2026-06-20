@@ -4,16 +4,8 @@ Last updated: 2026-06-20
 
 ## REQUIRED before mod can be tested/built
 
-### 1. Brotato Game Files (CRITICAL)
-The modding workflow requires decompiling the game's `Brotato.pck` using GDRETools to get the vanilla source. This is the foundation for everything — without it, we cannot:
-- Verify the exact API names of RunData methods (e.g. `get_player_max_nb_weapons`, `has_weapon_slot_available`)
-- Run the mod in Godot to test it
-- Know if any vanilla function signatures changed in recent game updates
-
-**What we need:** Either:
-- (a) Share the decompiled Brotato project folder (zipped, private) via Google Drive / similar. The guide says **do not share publicly** — a private share to this collaborator is fine.
-- (b) Provide SSH/remote access to a Windows machine with Brotato installed so we can run GDRETools and Godot there.
-- (c) Tell us the Brotato version you're running so we can at least verify which API version applies.
+### 1. Brotato Game Files — RESOLVED
+Brotato was installed via Steam (your credentials, rhaylor) and decompiled using GDRETools v2.5.0 directly on the sandbox VM. The decompiled source is at `~/brotato-decompiled/` on the VM. All API names have been verified against the live game code.
 
 ### 2. Locker Item Art Asset
 We need a small icon for the Locker item (shown in the player's inventory panel). Ideal: 512×512 PNG, similar art style to vanilla Brotato items (simple, bold, slightly cartoony).
