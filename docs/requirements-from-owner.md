@@ -1,44 +1,59 @@
 # Requirements / Blockers — Needs Input from Owner
 
-Last updated: 2026-06-20
+Last updated: 2026-06-21
 
-## REQUIRED before mod can be tested/built
+## ALL RESOLVED — Mod is packaged and ready to publish
+
+---
 
 ### 1. Brotato Game Files — RESOLVED
 Brotato was installed via Steam (your credentials, rhaylor) and decompiled using GDRETools v2.5.0 directly on the sandbox VM. The decompiled source is at `~/brotato-decompiled/` on the VM. All API names have been verified against the live game code.
 
-### 2. Locker Item Art Asset
-We need a small icon for the Locker item (shown in the player's inventory panel). Ideal: 512×512 PNG, similar art style to vanilla Brotato items (simple, bold, slightly cartoony).
+### 2. Locker Item Art — RESOLVED
+Owner confirmed: AI-generated art is OK. Icon generated at 512×512 PNG matching Brotato's bold cartoony style: dark metal locker with gold bands, hinges, keyhole latch, and a red weapon silhouette. Located at:
+`items/locker/item_locker_eit.png`
 
-**What we need:** Either provide art, or confirm it's OK to use a placeholder box/crate icon for now and polish later.
+### 3. Steam Workshop Publishing — RESOLVED (action on your end)
+Owner confirmed: publish via your own Steam account (rhaylor). Packaged mod ZIP is at:
+`dist/sandbox-vm-kenyon-EnhancedItemTrading-v0.1.0.zip`
 
-### 3. Steam Account for Workshop Publishing
-Publishing to the Steam Workshop requires:
-- A Steam account that has spent at least $5 USD
-- Phone number verification
+**To publish (run on your Windows machine with Brotato installed):**
+1. Right-click Brotato in Steam → Properties → Betas → select `moddingapi` branch
+2. Launch Brotato once to verify the modding branch is running
+3. Download the mod ZIP, extract to:
+   `<Brotato install dir>/mods-unpacked/sandbox-vm-kenyon-EnhancedItemTrading/`
+4. Use the in-game **Mod Publisher** (main menu → Workshop → Publish) or the standalone
+   `ModTool` if the modding guide's uploader is available
+5. Fill in title "Enhanced Item Trading", description (see below), and upload
+6. Set visibility to Public once ready
 
-We have the sandbox VM's Protonmail (`sandbox-vm-kenyon@proton.me`) ready. We can create the Steam account and go through email verification. However:
+**Suggested Workshop description:**
+```
+Fixes weapon trading for ALL tiers (original Coop Trading mod breaks on tier 2+ weapons), and adds a personal Weapon Locker item for each player.
 
-**What we need:**
-- Permission to use a credit card or purchase to meet the $5 Steam spending requirement (we cannot spend money without authorization)
-- OR: use your own Steam account to publish, and we'll hand you the packaged mod ZIP
+• Trade weapons and items between players in co-op
+• "Set Aside in Locker" — park one weapon to free up a slot for trading/buying
+• "Get [Weapon] from Locker" — retrieve it when you have a free slot again
+• Works with all weapon tiers (bug fix vs original mod)
+• Locker appears as a starting item in every co-op run
 
-### 4. Which Characters Should Start with the Locker?
-The locker is given to all players at run start. Should it be:
-- (a) **All characters** — every coop run starts with the locker (recommended for simplicity)
-- (b) **Opt-in via Mod Options** — players can toggle the locker on/off
-- (c) **Only in coop** — locker only appears in 2+ player games (since solo play has no trading partner)
+Incompatible with: RobocrafterLP-Trade (Coop Trading)
+```
 
-## NICE TO HAVE (can decide later)
+### 4. Locker Scope — RESOLVED
+Owner decision: **multiplayer (coop) only**. The locker is only given to players when there are 2+ players in the run. Solo players do not receive the locker item. This is already implemented (`is_locker_in_solo = false` by default).
+
+---
+
+## NICE TO HAVE (can be addressed post-launch)
 
 ### 5. Mod Options Integration
-The original mod has a "Trade items over limit" toggle via dami-ModOptions. Should we:
-- Keep that toggle and add more options (e.g. "Enable locker", "Max locker size = 1/2/3")
-- Keep it simple — no options, everything on by default
+Currently the "Trade items over limit" toggle is wired up via dami-ModOptions (inherited from original mod). Locker can be toggled via `is_locker_enabled`. Can expose more options in a future update.
 
 ### 6. Weapon Restrictions for Locker
-Should locked weapons still obey character restrictions (e.g. a character that can't use ranged weapons can't put a ranged weapon in the locker)?
-- Recommend: No restriction on locker storage — the locker is a physical slot, not a use slot. The weapon just sits there. Restriction applies when retrieving (if the character couldn't use the weapon, it still can't, same as normal trading).
+Implemented as recommended: no restriction on storing a weapon in the locker. Character restrictions (no melee/ranged) apply at retrieval time, same as trading.
 
 ### 7. Translations
-The original mod has EN/DE/RU. Should we add those same languages for the new locker strings? We can auto-translate the new strings into DE and RU as a starting point.
+EN, DE, RU translations exist for all locker strings in:
+`translations/sandbox-vm-kenyon-EnhancedItemTrading.csv`
+DE and RU strings were auto-translated as a starting point and may need native review.
