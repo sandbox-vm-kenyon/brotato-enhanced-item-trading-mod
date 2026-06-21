@@ -79,8 +79,16 @@ Let a player "park" one weapon temporarily so they can trade/buy without needing
   - On press: call `.buy_weapon(locker_weapon, player_index)` then clear the locker
 
 #### Starting Items
-- Vanilla start items are set in character data — we hook into `run_data.gd` to append the locker item after the run starts
-- The locker will appear alongside the character icon as a standard item
+- Vanilla `add_starting_items_and_weapons()` is overridden in `run_data.gd` extension
+- After calling parent `.()`, we call `add_item(locker_item_data, player_index)` for each player
+- Respects `is_locker_enabled` and `is_locker_in_solo` config flags
+- `locker_item_data` is loaded and set by `mod_main._ready()` via `ItemService.add_mod_item()`
+
+#### Item Resource
+- `items/locker/item_locker_eit_data.tres` — Godot resource file extending `item_data.gd`
+- `my_id = "item_locker_eit"`, `can_be_looted = false`, `is_lockable = false`, `max_nb = 1`
+- Loaded at runtime in `mod_main._register_locker_item()` via `load(path)`
+- Registered via `ItemService.add_mod_item()` — appears in item arrays but NOT shop tiers
 
 ### Edge Cases to Handle
 - Player tries to set aside while locker is full → button hidden (not shown)

@@ -13,6 +13,9 @@ var is_locker_in_solo: bool = false
 # One locker slot per player (null = empty, WeaponData = weapon stored)
 var locker_weapons: Array = [null, null, null, null]
 
+# Set by mod_main._ready() after loading the .tres resource
+var locker_item_data = null
+
 
 func _ready():
 	var ModsConfigInterface = get_node("/root/ModLoader/dami-ModOptions/ModsConfigInterface")
@@ -86,3 +89,22 @@ func is_can_trade_item(object_data, player_index: int) -> bool:
 # Verified in decompiled source (singletons/run_data.gd:1335):
 #   return effects[Keys.weapon_slot_hash] - get_player_weapons_ref(player_index).size()
 # We do NOT redefine it here — vanilla version is used directly.
+
+
+# --- Starting items override ---
+# Vanilla signature (run_data.gd:1618): add_starting_items_and_weapons() -> void
+# Calls parent first, then appends locker item to each player's inventory.
+
+func add_starting_items_and_weapons() -> void:
+	.()
+
+	if not is_locker_enabled:
+		return
+	if not is_locker_in_solo and get_player_count() < 2:
+		return
+	if locker_item_data == null:
+		ModLoaderLog.warning("Locker item data not loaded — skipping locker setup", "EIT")
+		return
+
+	for player_index in get_player_count():
+		add_item(locker_item_data, player_index)

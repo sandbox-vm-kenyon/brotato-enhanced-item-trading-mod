@@ -17,6 +17,19 @@ func _init() -> void:
 func _ready() -> void:
 	ModLoaderLog.info("Ready!", MOD_LOG)
 	_config(MOD_ID, MOD_LOG)
+	_register_locker_item()
+
+
+func _register_locker_item() -> void:
+	var tres_path = mod_dir_path.plus_file("items/locker/item_locker_eit_data.tres")
+	var locker_item = load(tres_path)
+	if locker_item == null:
+		ModLoaderLog.error("Failed to load locker item .tres at: " + tres_path, MOD_LOG)
+		return
+
+	ItemService.add_mod_item(locker_item)
+	RunData.locker_item_data = locker_item
+	ModLoaderLog.info("Locker item registered: " + locker_item.my_id, MOD_LOG)
 
 
 func install_script_extensions() -> void:
@@ -26,6 +39,9 @@ func install_script_extensions() -> void:
 		"singletons/run_data.gd",
 		"singletons/debug_service.gd",
 		"ui/menus/shop/coop_item_popup.gd",
+		"ui/menus/shop/coop_shop.gd",
+		"ui/menus/ingame/coop_upgrades_ui_player_container.gd",
+		"ui/menus/ingame/upgrades_ui.gd",
 	]
 
 	for extension in extensions:

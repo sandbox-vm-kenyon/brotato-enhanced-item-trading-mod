@@ -1,0 +1,20 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://items/global/item_data.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+my_id = "item_locker_eit"
+unlocked_by_default = false
+can_be_looted = false
+is_lockable = false
+name = "EIT_LOCKER_NAME"
+tier = 1
+value = 0
+effects = []
+tracking_text = "EIT_LOCKER_DESC"
+is_cursed = false
+curse_factor = 0.0
+max_nb = 1
+item_appearances = []
+tags = []
