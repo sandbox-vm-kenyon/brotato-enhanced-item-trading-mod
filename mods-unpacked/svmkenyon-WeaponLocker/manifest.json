@@ -1,0 +1,17 @@
+{
+	"name": "WeaponLocker",
+	"namespace": "svmkenyon",
+	"version_number": "0.1.0",
+	"description": "Adds a personal Weapon Locker item to each coop player. Store one weapon in your locker to free up a slot, then retrieve it later.",
+	"website_url": "https://github.com/sandbox-vm-kenyon/brotato-enhanced-item-trading-mod",
+	"dependencies": ["Darkly77-ContentLoader"],
+	"extra": {
+		"godot": {
+			"incompatibilities": [],
+			"authors": ["sandbox-vm-kenyon"],
+			"compatible_mod_loader_version": ["3.0.0"],
+			"compatible_game_version": ["0.6.1.6"],
+			"config_defaults": {}
+		}
+	}
+}

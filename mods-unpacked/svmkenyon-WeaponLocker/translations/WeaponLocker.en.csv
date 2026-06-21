@@ -1,0 +1,6 @@
+keys,en
+WL_LOCKER_NAME,Weapon Locker
+WL_LOCKER_DESC,Store one weapon for later retrieval.
+WL_STORE_BUTTON,Store in Locker
+WL_RETRIEVE_PREFIX,Get
+WL_RETRIEVE_SUFFIX,from Locker
