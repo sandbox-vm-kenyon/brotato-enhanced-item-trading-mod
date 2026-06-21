@@ -6,11 +6,7 @@ Fixes weapon trading for all tiers and adds a personal Weapon Locker for each pl
 
 - **Brotato** on the `moddingapi` Steam beta branch
   (Steam → right-click Brotato → Properties → Betas → select `moddingapi`)
-
-## Optional
-
-- **[dami-ModOptions](https://steamcommunity.com/sharedfiles/filedetails/?id=2944608034)** — adds an in-game settings panel. Not required; the mod works without it using default settings.
-  > **Note:** dami-ModOptions has a known crash when entering co-op shop. If you experience all mods unloading after entering co-op, unsubscribe from dami-ModOptions.
+- **[dami-ModOptions](https://steamcommunity.com/sharedfiles/filedetails/?id=2944608034)** — subscribe on Workshop
 
 ## Incompatible With
 

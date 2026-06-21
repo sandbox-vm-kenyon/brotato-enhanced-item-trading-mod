@@ -1,10 +1,10 @@
 {
 	"name": "EnhancedItemTrading",
 	"namespace": "sandbox-vm-kenyon",
-	"version_number": "0.1.1",
+	"version_number": "0.1.2",
 	"description": "Fixes weapon trading for all tiers and adds a personal weapon locker mechanic",
 	"website_url": "https://github.com/sandbox-vm-kenyon/brotato-enhanced-item-trading-mod",
-	"dependencies": [],
+	"dependencies": ["dami-ModOptions"],
 	"extra": {
 		"godot": {
 			"incompatibilities": ["RobocrafterLP-Trade"],
