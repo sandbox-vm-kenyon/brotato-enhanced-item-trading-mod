@@ -19,7 +19,7 @@ var locker_item_data = null
 
 func _ready():
 	._ready()
-	var ModsConfigInterface = get_node("/root/ModLoader/dami-ModOptions/ModsConfigInterface")
+	var ModsConfigInterface = get_node_or_null("/root/ModLoader/dami-ModOptions/ModsConfigInterface")
 	if ModsConfigInterface != null:
 		ModsConfigInterface.connect("setting_changed", self, "_on_eit_setting_changed")
 

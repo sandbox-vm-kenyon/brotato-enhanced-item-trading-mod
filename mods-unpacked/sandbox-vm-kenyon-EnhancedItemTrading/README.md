@@ -6,7 +6,11 @@ Fixes weapon trading for all tiers and adds a personal Weapon Locker for each pl
 
 - **Brotato** on the `moddingapi` Steam beta branch
   (Steam → right-click Brotato → Properties → Betas → select `moddingapi`)
-- **[dami-ModOptions](https://steamcommunity.com/sharedfiles/filedetails/?id=2944608034)** — subscribe on Workshop
+
+## Optional
+
+- **[dami-ModOptions](https://steamcommunity.com/sharedfiles/filedetails/?id=2944608034)** — adds an in-game settings panel. Not required; the mod works without it using default settings.
+  > **Note:** dami-ModOptions has a known crash when entering co-op shop. If you experience all mods unloading after entering co-op, unsubscribe from dami-ModOptions.
 
 ## Incompatible With
 
@@ -29,4 +33,4 @@ Each player starts every co-op run with a Locker item in their inventory.
 
 Subscribe on Steam Workshop — no manual steps needed.
 
-If installing manually: place the `sandbox-vm-kenyon-EnhancedItemTrading` folder inside your game's `mods-unpacked/` directory alongside `dami-ModOptions`.
+If installing manually: place the `sandbox-vm-kenyon-EnhancedItemTrading` folder inside your game's `mods-unpacked/` directory.
