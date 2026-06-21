@@ -5,6 +5,7 @@ extends CoopShop
 # that works for all weapon tiers by testing free slots directly.
 
 func _ready():
+	._ready()
 	var player_count: int = RunData.get_player_count()
 
 	for player_index in player_count:

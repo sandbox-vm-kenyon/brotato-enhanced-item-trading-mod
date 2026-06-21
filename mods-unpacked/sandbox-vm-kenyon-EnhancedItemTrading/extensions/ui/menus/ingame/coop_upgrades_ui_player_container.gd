@@ -6,6 +6,7 @@ extends CoopUpgradesUIPlayerContainer
 signal item_trade_button_pressed_eit(item_data, to_player_index)
 
 func _ready() -> void:
+	._ready()
 	var buttons_clone = _take_button.get_parent().duplicate()
 	_take_button.get_parent().get_parent().add_child(buttons_clone)
 	_take_button.get_parent().get_parent().move_child(buttons_clone, _take_button.get_parent().get_index() + 1)

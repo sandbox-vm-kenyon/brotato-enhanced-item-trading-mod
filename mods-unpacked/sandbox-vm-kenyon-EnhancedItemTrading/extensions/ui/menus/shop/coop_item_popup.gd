@@ -20,6 +20,7 @@ func _is_coop() -> bool:
 
 
 func _ready():
+	._ready()
 	_base_button_template = _cancel_button.duplicate()
 	for child in _base_button_template.get_children():
 		child.free()

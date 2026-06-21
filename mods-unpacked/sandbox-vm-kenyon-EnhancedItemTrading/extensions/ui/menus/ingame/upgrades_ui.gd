@@ -4,6 +4,7 @@ extends UpgradesUI
 # Connects between-wave trade signals to consumable dispatch.
 
 func _ready() -> void:
+	._ready()
 	if not RunData.is_coop_run:
 		return
 	if RunData.is_coop_run != is_coop_ui:
