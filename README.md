@@ -81,7 +81,13 @@ The built-in Brotato mod upload tool does not work on Linux. We use `steamcmd` d
    ```
    The root of the ZIP must be `mods-unpacked/`, not the mod folder itself.
 
-2. **Create a VDF file** describing the Workshop item:
+2. **Put the ZIP in a dedicated upload folder.** ModLoader scans each Workshop item folder for `.zip` files — it will not load a raw folder structure. The `contentfolder` in the VDF must point to a directory whose only content is the mod ZIP:
+   ```bash
+   mkdir -p /tmp/my-upload-content
+   cp dist/my-mod.zip /tmp/my-upload-content/
+   ```
+
+3. **Create a VDF file** describing the Workshop item:
    ```
    "workshopitem"
    {
@@ -97,19 +103,19 @@ The built-in Brotato mod upload tool does not work on Linux. We use `steamcmd` d
    ```
    Note: `contentfolder` is the folder whose **contents** are uploaded — not the folder itself. Point it at the `mods-unpacked/` directory so the mod folder ends up at the root of the Workshop item.
 
-3. **Run steamcmd:**
+4. **Run steamcmd:**
    ```bash
    steamcmd +login <username> <password> +workshop_build_item /path/to/item.vdf +quit
    ```
 
-4. **Get the new Workshop ID** from the output line:
+5. **Get the new Workshop ID** from the output line:
    ```
    Create new workshop item ( PublishFileID 3749293112).
    ```
 
-5. **For future updates**, replace `"publishedfileid" "0"` with the actual ID so it updates instead of creating a new item. The VDF at `/tmp/wl-workshop-item.vdf` is already updated with the correct ID after the first upload.
+6. **For future updates**, replace `"publishedfileid" "0"` with the actual ID so it updates instead of creating a new item. The VDF at `/tmp/wl-workshop-item.vdf` is already updated with the correct ID after the first upload.
 
-6. **Set Workshop dependencies manually after upload.** Listing a mod in `manifest.json` `"dependencies"` tells ModLoader to enforce the dependency at load time, but it does **not** automatically set the dependency relationship on the Steam Workshop item page. You must go to the Workshop item page → Edit → "Add/Remove Required Items" and add each dependency there. Without this, users who subscribe to your mod will not have the dependency automatically downloaded by Steam. This step cannot be done via steamcmd — it requires logging into the Steam website or the Steam client as the item owner.
+7. **Set Workshop dependencies manually after upload.** Listing a mod in `manifest.json` `"dependencies"` tells ModLoader to enforce the dependency at load time, but it does **not** automatically set the dependency relationship on the Steam Workshop item page. You must go to the Workshop item page → Edit → "Add/Remove Required Items" and add each dependency there. Without this, users who subscribe to your mod will not have the dependency automatically downloaded by Steam. This step cannot be done via steamcmd — it requires logging into the Steam website or the Steam client as the item owner.
 
 ---
 
