@@ -109,6 +109,8 @@ The built-in Brotato mod upload tool does not work on Linux. We use `steamcmd` d
 
 5. **For future updates**, replace `"publishedfileid" "0"` with the actual ID so it updates instead of creating a new item. The VDF at `/tmp/wl-workshop-item.vdf` is already updated with the correct ID after the first upload.
 
+6. **Set Workshop dependencies manually after upload.** Listing a mod in `manifest.json` `"dependencies"` tells ModLoader to enforce the dependency at load time, but it does **not** automatically set the dependency relationship on the Steam Workshop item page. You must go to the Workshop item page → Edit → "Add/Remove Required Items" and add each dependency there. Without this, users who subscribe to your mod will not have the dependency automatically downloaded by Steam. This step cannot be done via steamcmd — it requires logging into the Steam website or the Steam client as the item owner.
+
 ---
 
 ## Repo Structure
